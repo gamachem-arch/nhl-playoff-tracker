@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NHL Playoff Tracker — Live odds, stats & playoff pools</title>
+    <meta name="description" content="Live win probabilities, scoring leaders, series breakdowns and real-time game analysis. Free, no account required.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #07070f;
+            --surface: #0f0f1a;
+            --border: rgba(255,255,255,0.08);
+            --text: #f0f0f8;
+            --muted: rgba(240,240,248,0.5);
+            --accent: #3b82f6;
+            --accent-glow: rgba(59,130,246,0.3);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            background: rgba(7,7,15,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text);
+            text-decoration: none;
+        }
+        .nav-logo span { color: var(--accent); }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 9px 22px;
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 24px var(--accent-glow);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 9px 22px;
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .btn-secondary:hover {
+            border-color: rgba(255,255,255,0.2);
+            color: var(--text);
+        }
+
+        /* Buy Me a Coffee */
+        .btn-bmc {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #FFDD00;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 22px;
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .btn-bmc:hover {
+            background: #f5d400;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(255,221,0,0.3);
+        }
+
+        /* ── BG GLOWS ── */
+        .bg-glow {
+            position: fixed;
+            width: 700px; height: 700px;
+            border-radius: 50%;
+            filter: blur(130px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bg-glow-1 { background: rgba(59,130,246,0.07); top: -250px; right: -250px; }
+        .bg-glow-2 { background: rgba(99,102,241,0.04); bottom: -250px; left: -250px; }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 110px 40px 70px;
+            max-width: 1120px;
+            margin: 0 auto;
+            gap: 70px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-left { flex: 1; }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(59,130,246,0.12);
+            border: 1px solid rgba(59,130,246,0.3);
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 24px;
+            letter-spacing: 0.3px;
+        }
+        .hero-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(54px, 7vw, 84px);
+            font-weight: 800;
+            line-height: 0.93;
+            letter-spacing: -0.5px;
+            margin-bottom: 22px;
+        }
+        .hero-title .accent { color: var(--accent); }
+        .hero-sub {
+            font-size: 17px;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 36px;
+            max-width: 440px;
+        }
+        .hero-ctas {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* ── PHONE MOCKUP ── */
+        .hero-right {
+            flex: 0 0 300px;
+            display: flex;
+            justify-content: center;
+        }
+        .phone {
+            width: 282px;
+            height: 570px;
+            background: #09090f;
+            border-radius: 42px;
+            border: 2px solid rgba(255,255,255,0.11);
+            box-shadow:
+                0 0 0 1px rgba(0,0,0,0.6),
+                0 50px 100px rgba(0,0,0,0.7),
+                0 0 80px rgba(59,130,246,0.07);
+            overflow: hidden;
+            position: relative;
+            padding: 16px;
+        }
+        .phone::before {
+            content: '';
+            position: absolute;
+            top: 16px; left: 50%;
+            transform: translateX(-50%);
+            width: 72px; height: 5px;
+            background: rgba(255,255,255,0.13);
+            border-radius: 3px;
+            z-index: 2;
+        }
+        .phone-screen {
+            margin-top: 22px;
+            height: calc(100% - 22px);
+            overflow: hidden;
+            border-radius: 28px;
+            background: #0b0b18;
+        }
+
+        /* Phone inner UI */
+        .ph-header {
+            background: #0f0f1e;
+            padding: 10px 13px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .ph-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .ph-live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(239,68,68,0.15);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 4px;
+            padding: 2px 7px;
+            font-size: 9px;
+            font-weight: 700;
+            color: #ef4444;
+            letter-spacing: 0.5px;
+        }
+        .ph-dot {
+            width: 5px; height: 5px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+
+        /* Series rows in phone */
+        .ph-series { padding: 8px 11px 4px; }
+        .ph-slabel {
+            font-size: 8px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.28);
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .ph-srow {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .ph-srow:last-child { border-bottom: none; }
+        .ph-smid {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+        .ph-sabbrev {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.85);
+        }
+        .ph-sscore {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.07);
+            border-radius: 3px;
+            padding: 1px 5px;
+        }
+        .ph-scup {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 36px;
+            text-align: right;
+        }
+        .ph-logo { width: 22px; height: 22px; object-fit: contain; }
+
+        /* Tonight divider */
+        .ph-tonight {
+            padding: 5px 11px 3px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 8px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.28);
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        /* Live game card in phone */
+        .ph-game {
+            margin: 3px 10px 0;
+            background: #13132a;
+            border: 1px solid rgba(239,68,68,0.22);
+            border-radius: 10px;
+            padding: 8px 10px;
+            box-shadow: 0 0 14px rgba(239,68,68,0.08);
+        }
+        .ph-game-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .ph-teams {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .ph-team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+        .ph-logo-lg { width: 26px; height: 26px; object-fit: contain; }
+        .ph-abbrev {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.6);
+        }
+        .ph-score {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: 2px;
+        }
+        .ph-chart-label {
+            font-size: 8px;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        /* ── LAYOUT WRAPPER ── */
+        .content { position: relative; z-index: 1; }
+
+        /* ── SECTION BASE ── */
+        .section {
+            padding: 80px 40px;
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+        .label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(38px, 5vw, 56px);
+            font-weight: 800;
+            line-height: 0.97;
+            margin-bottom: 16px;
+        }
+        .section-sub {
+            font-size: 16px;
+            color: var(--muted);
+            max-width: 500px;
+            line-height: 1.7;
+            margin-bottom: 48px;
+        }
+
+        /* ── FEATURES ── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 28px 26px;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .feature-card:hover {
+            border-color: rgba(59,130,246,0.28);
+            transform: translateY(-2px);
+        }
+        .feature-icon { font-size: 28px; margin-bottom: 14px; }
+        .feature-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .feature-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+        /* ── DIVIDER ── */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+        /* ── POOL SECTION ── */
+        .pool-wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+        .pool-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 56px 52px;
+            display: flex;
+            align-items: center;
+            gap: 64px;
+        }
+        .pool-left { flex: 1; }
+        .pool-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16,185,129,0.12);
+            border: 1px solid rgba(16,185,129,0.3);
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #10b981;
+            margin-bottom: 20px;
+        }
+        .pool-steps { margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
+        .pool-step { display: flex; align-items: flex-start; gap: 14px; }
+        .step-num {
+            width: 26px; height: 26px;
+            background: rgba(59,130,246,0.12);
+            border: 1px solid rgba(59,130,246,0.28);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; color: var(--accent);
+            flex-shrink: 0; margin-top: 2px;
+        }
+        .step-text { font-size: 14px; color: var(--muted); line-height: 1.55; }
+        .step-text strong { color: var(--text); }
+        .pool-right { flex: 0 0 230px; }
+        .mini-pool-card {
+            background: #0a0a18;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 16px 14px;
+        }
+        .mini-pool-header {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 13px; font-weight: 700;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 1px; margin-bottom: 10px;
+        }
+        .mini-row {
+            display: flex; align-items: center; gap: 9px;
+            padding: 7px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .mini-row:last-child { border-bottom: none; }
+        .mini-rank {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 20px; font-weight: 800; width: 22px; text-align: center;
+        }
+        .mini-pip { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .mini-name { flex: 1; font-size: 13px; font-weight: 500; }
+        .mini-pct {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 16px; font-weight: 700; color: var(--accent);
+        }
+
+        /* ── CTA BANNER ── */
+        .cta-section {
+            text-align: center;
+            padding: 70px 40px 90px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-section .section-title { margin-bottom: 14px; }
+        .cta-sub { font-size: 16px; color: var(--muted); margin-bottom: 32px; }
+        .cta-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 36px 40px;
+            position: relative; z-index: 1;
+        }
+        .footer-inner {
+            max-width: 1120px; margin: 0 auto;
+            display: flex; align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap; gap: 20px;
+        }
+        .footer-logo {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 18px; font-weight: 700;
+            color: var(--text); text-decoration: none;
+        }
+        .footer-logo span { color: var(--accent); }
+        .footer-meta { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.7; }
+        .footer-meta a { color: var(--accent); text-decoration: none; }
+        .footer-meta a:hover { text-decoration: underline; }
+        .footer-links { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .footer-link {
+            color: var(--muted); text-decoration: none; font-size: 13px;
+            display: flex; align-items: center; gap: 6px; transition: color 0.2s;
+        }
+        .footer-link:hover { color: var(--text); }
+        .footer-bmc {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: #FFDD00; color: #000;
+            border-radius: 6px; padding: 6px 14px;
+            font-size: 12px; font-weight: 700;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .footer-bmc:hover { background: #f5d400; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 860px) {
+            nav { padding: 14px 20px; }
+            .hero { flex-direction: column; padding: 90px 20px 50px; gap: 44px; text-align: center; }
+            .hero-sub { margin: 0 auto 36px; }
+            .hero-ctas { justify-content: center; }
+            .hero-right { order: -1; }
+            .phone { width: 250px; height: 500px; }
+            .section { padding: 60px 20px; }
+            .features-grid { grid-template-columns: 1fr 1fr; }
+            .pool-wrap { padding: 60px 20px; }
+            .pool-card { flex-direction: column; padding: 36px 24px; gap: 36px; }
+            .pool-right { width: 100%; }
+            .cta-section { padding: 60px 20px 70px; }
+            footer { padding: 28px 20px; }
+        }
+        @media (max-width: 560px) {
+            .features-grid { grid-template-columns: 1fr; }
+            .footer-links { gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+
+<!-- NAV -->
+<nav>
+    <a href="#" class="nav-logo">NHL <span>Playoff</span> Tracker</a>
+    <a href="https://gamachem-arch.github.io/playoff-pool-maker/" class="btn-primary">Open App →</a>
+</nav>
+
+<div class="content">
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-left">
+            <div class="hero-badge">🏒 2026 Stanley Cup Playoffs</div>
+            <h1 class="hero-title">THE <span class="accent">SHARPEST</span><br>PLAYOFF<br>TRACKER<br>OUT THERE.</h1>
+            <p class="hero-sub">Live win probabilities, scoring leaders, series breakdowns, and real-time game analysis — all in one clean app built for people who actually care about hockey.</p>
+            <div class="hero-ctas">
+                <a href="https://gamachem-arch.github.io/playoff-pool-maker/" class="btn-primary">Open App →</a>
+                <a href="https://hockeybangers.substack.com" target="_blank" class="btn-secondary">HockeyBangers Newsletter ↗</a>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="phone">
+                <div class="phone-screen">
+
+                    <!-- Header -->
+                    <div class="ph-header">
+                        <div class="ph-title">🏒 PLAYOFFS</div>
+                        <div class="ph-live-badge"><div class="ph-dot"></div> LIVE</div>
+                    </div>
+
+                    <!-- Series tracker -->
+                    <div class="ph-series">
+                        <div class="ph-slabel">Series Odds</div>
+
+                        <div class="ph-srow">
+                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/EDM_light.svg" alt="EDM" onerror="this.style.display='none'">
+                            <div class="ph-smid">
+                                <div class="ph-sabbrev">EDM</div>
+                                <div class="ph-sscore">3–1</div>
+                                <div class="ph-sabbrev" style="opacity:0.4">VAN</div>
+                            </div>
+                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/VAN_light.svg" alt="VAN" style="opacity:0.35" onerror="this.style.display='none'">
+                            <div class="ph-scup">71.4%</div>
+                        </div>
+
+                        <div class="ph-srow">
+                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/FLA_light.svg" alt="FLA" onerror="this.style.display='none'">
+                            <div class="ph-smid">
+                                <div class="ph-sabbrev">FLA</div>
+                                <div class="ph-sscore">2–2</div>
+                                <div class="ph-sabbrev">BOS</div>
+                            </div>
+                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/BOS_light.svg" alt="BOS" onerror="this.style.display='none'">
+                            <div class="ph-scup" style="color:rgba(255,255,255,0.5)">51.2%</div>
+                        </div>
+
+                        <div class="ph-srow">
+                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/COL_light.svg" alt="COL" onerror="this.style.display='none'">
+                            <div class="ph-smid">
+                                <div class="ph-sabbrev">COL</div>
+                                <div class="ph-sscore">3–0</div>
+                                <div class="ph-sabbrev" style="opacity:0.4">DAL</div>
+                            </div>
+                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/DAL_light.svg" alt="DAL" style="opacity:0.35" onerror="this.style.display='none'">
+                            <div class="ph-scup">82.1%</div>
+                        </div>
+                    </div>
+
+                    <!-- Tonight divider -->
+                    <div class="ph-tonight">Tonight</div>
+
+                    <!-- Live game card -->
+                    <div class="ph-game">
+                        <div class="ph-game-top">
+                            <div class="ph-live-badge"><div class="ph-dot"></div> 3RD · 12:34</div>
+                            <div style="font-size:8px;color:rgba(255,255,255,0.28);letter-spacing:0.3px;">TAP FOR ANALYSIS</div>
+                        </div>
+                        <div class="ph-teams">
+                            <div class="ph-team">
+                                <img class="ph-logo-lg" src="https://assets.nhle.com/logos/nhl/svg/EDM_light.svg" alt="EDM" onerror="this.style.display='none'">
+                                <div class="ph-abbrev">EDM</div>
+                            </div>
+                            <div style="text-align:center;">
+                                <div class="ph-score">2 · 3</div>
+                            </div>
+                            <div class="ph-team">
+                                <img class="ph-logo-lg" src="https://assets.nhle.com/logos/nhl/svg/VAN_light.svg" alt="VAN" onerror="this.style.display='none'">
+                                <div class="ph-abbrev">VAN</div>
+                            </div>
+                        </div>
+                        <div class="ph-chart-label">WIN PROBABILITY</div>
+                        <svg width="100%" height="26" viewBox="0 0 220 26" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.28"/>
+                                    <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <line x1="0" y1="13" x2="220" y2="13" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
+                            <path d="M0,11 C25,10 45,13 70,8 C95,3 110,16 130,18 C150,20 170,10 190,6 C205,3 215,4 220,3" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+                            <path d="M0,11 C25,10 45,13 70,8 C95,3 110,16 130,18 C150,20 170,10 190,6 C205,3 215,4 220,3 L220,26 L0,26Z" fill="url(#wg)"/>
+                        </svg>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="section">
+        <div class="label">What's inside</div>
+        <h2 class="section-title">Everything you need<br>to follow the playoffs.</h2>
+        <p class="section-sub">Built by hockey fans, powered by real data. No bloat, no accounts, no clutter — just the playoffs.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Live Win Probability</div>
+                <div class="feature-desc">Real-time win odds from MoneyPuck, updated throughout every game. Watch the chart move as goals go in.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏒</div>
+                <div class="feature-title">Scoring Leaders</div>
+                <div class="feature-desc">Top scorers across every playoff team — points, goals, assists — with player headshots and live updates.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title">Live Game Analysis</div>
+                <div class="feature-desc">Tap any live game for a full overlay: win probability chart, shot map, game control bars, and scoring timeline with Δwin%.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🗺️</div>
+                <div class="feature-title">Shot Maps</div>
+                <div class="feature-desc">Full-rink shot visualization with xGoals weighting. See exactly where teams are generating danger from.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <div class="feature-title">Series Tracker</div>
+                <div class="feature-desc">Every playoff series with odds history sparklines, so you can see how the picture has shifted throughout the playoffs.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📲</div>
+                <div class="feature-title">Installs Like an App</div>
+                <div class="feature-desc">Add to your home screen on iOS or Android — no App Store needed. Works offline, feels completely native.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- POOL SECTION -->
+    <div class="pool-wrap">
+        <div class="pool-card">
+            <div class="pool-left">
+                <div class="pool-badge">🏆 Pool Mode</div>
+                <h2 class="section-title">Running a<br>playoff pool?</h2>
+                <p style="font-size:16px;color:var(--muted);line-height:1.7;margin-top:14px;">Build a pool in under a minute, share a link with your group, and track everyone's standings in real time — no sign-up required for anyone.</p>
+                <div class="pool-steps">
+                    <div class="pool-step">
+                        <div class="step-num">1</div>
+                        <div class="step-text"><strong>Create your pool</strong> — add players and assign their teams in the draft</div>
+                    </div>
+                    <div class="pool-step">
+                        <div class="step-num">2</div>
+                        <div class="step-text"><strong>Share the link</strong> — one tap and everyone has their personalized view</div>
+                    </div>
+                    <div class="pool-step">
+                        <div class="step-num">3</div>
+                        <div class="step-text"><strong>Follow along</strong> — live standings update automatically all playoffs long</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pool-right">
+                <div class="mini-pool-card">
+                    <div class="mini-pool-header">🏆 POOL STANDINGS</div>
+                    <div class="mini-row">
+                        <div class="mini-rank">1</div>
+                        <div class="mini-pip" style="background:#3b82f6"></div>
+                        <div class="mini-name">Player 1</div>
+                        <div class="mini-pct">34.2%</div>
+                    </div>
+                    <div class="mini-row" style="opacity:0.55">
+                        <div class="mini-rank">2</div>
+                        <div class="mini-pip" style="background:#f59e0b"></div>
+                        <div class="mini-name">Player 2</div>
+                        <div class="mini-pct">28.7%</div>
+                    </div>
+                    <div class="mini-row" style="opacity:0.55">
+                        <div class="mini-rank">3</div>
+                        <div class="mini-pip" style="background:#10b981"></div>
+                        <div class="mini-name">Player 3</div>
+                        <div class="mini-pct">21.1%</div>
+                    </div>
+                    <div class="mini-row" style="opacity:0.55">
+                        <div class="mini-rank">4</div>
+                        <div class="mini-pip" style="background:#8b5cf6"></div>
+                        <div class="mini-name">Player 4</div>
+                        <div class="mini-pct">16.0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+        <h2 class="section-title">Ready to follow the<br><span style="color:var(--accent)">2026 playoffs?</span></h2>
+        <p class="cta-sub">Free. No account. Works on any device.</p>
+        <div class="cta-buttons">
+            <a href="https://gamachem-arch.github.io/playoff-pool-maker/" class="btn-primary" style="font-size:16px;padding:14px 36px;">Open NHL Playoff Tracker →</a>
+            <a href="https://buymeacoffee.com/gamachem" target="_blank" class="btn-bmc" style="font-size:15px;padding:13px 28px;">☕ Buy Me a Coffee</a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <a href="#" class="footer-logo">NHL <span>Playoff</span> Tracker</a>
+                <div class="footer-meta">
+                    Created by <a href="https://buymeacoffee.com/gamachem" target="_blank">Michel Gamache</a>
+                    &nbsp;·&nbsp; Presented by <a href="https://hockeybangers.substack.com" target="_blank">HockeyBangers</a><br>
+                    Powered by <a href="https://moneypuck.com" target="_blank">MoneyPuck</a> &amp; <a href="https://www.nhl.com" target="_blank">NHL.com</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <a href="https://x.com/HockeyBangers" target="_blank" class="footer-link">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    @HockeyBangers
+                </a>
+                <a href="https://www.reddit.com/user/FantasyHockeyBangers/" target="_blank" class="footer-link">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+                    Reddit
+                </a>
+                <a href="https://hockeybangers.substack.com" target="_blank" class="footer-link">
+                    📧 Newsletter
+                </a>
+                <a href="https://buymeacoffee.com/gamachem" target="_blank" class="footer-bmc">☕ Buy me a coffee</a>
+            </div>
+        </div>
+    </footer>
+
+</div><!-- /content -->
+</body>
+</html>
