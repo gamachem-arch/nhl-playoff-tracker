@@ -190,13 +190,10 @@
         }
         .phone {
             width: 282px;
-            height: 680px;
-            background: #09090f;
             border-radius: 42px;
-            border: 2px solid rgba(255,255,255,0.11);
+            border: 2px solid rgba(255,255,255,0.1);
             box-shadow:
-                0 0 0 1px rgba(0,0,0,0.6),
-                0 50px 100px rgba(0,0,0,0.7),
+                0 40px 80px rgba(0,0,0,0.6),
                 0 0 80px rgba(59,130,246,0.07);
             overflow: hidden;
             position: relative;
@@ -544,7 +541,7 @@
         /* ── FEATURES ── */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 18px;
         }
         .feature-card {
@@ -552,21 +549,30 @@
             border: 1px solid var(--border);
             border-radius: 18px;
             overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
             transition: border-color 0.2s, transform 0.2s;
         }
         .feature-card:hover {
             border-color: rgba(59,130,246,0.28);
             transform: translateY(-2px);
         }
+        .feature-card-body {
+            flex: 1;
+            padding: 26px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
         .feature-card-img {
-            width: 100%;
-            height: 200px;
+            flex: 0 0 150px;
+            width: 150px;
             object-fit: cover;
             object-position: top;
             display: block;
-            border-bottom: 1px solid var(--border);
+            border-left: 1px solid var(--border);
         }
-        .feature-card-body { padding: 20px 22px 22px; }
         .feature-title {
             font-family: 'Barlow Condensed', sans-serif;
             font-size: 22px;
@@ -725,7 +731,13 @@
             .hero-sub { margin: 0 auto 36px; }
             .hero-ctas { justify-content: center; }
             .hero-right { order: -1; }
-            .phone { width: 250px; height: 600px; }
+            .phone { width: 220px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .feature-card { flex-direction: column; }
+            .feature-card-img { width: 100%; height: 200px; border-left: none; border-top: 1px solid var(--border); }
+            .pool-right { flex-wrap: wrap; }
+            .pool-phone { flex: 0 0 140px; }
+            .pool-phone-offset { margin-top: 0; }
             .section { padding: 60px 20px; }
             .features-grid { grid-template-columns: 1fr 1fr; }
             .pool-wrap { padding: 60px 20px; }
@@ -767,7 +779,7 @@
         </div>
         <div class="hero-right">
             <div class="phone">
-                <img src="screenshots/main.PNG" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
+                <img src="screenshots/main.PNG" style="width:100%;display:block;">
             </div><!-- /phone -->
         </div><!-- /hero-right -->
         </div><!-- /hero-group -->
@@ -781,46 +793,60 @@
         <p class="section-sub">Built by hockey fans, powered by real data. No bloat, no accounts, no clutter — just the playoffs.</p>
         <div class="features-grid">
             <div class="feature-card">
-                <img class="feature-card-img" src="screenshots/live-game.PNG" alt="Live Win Probability">
                 <div class="feature-card-body">
                     <div class="feature-title">Live Win Probability</div>
                     <div class="feature-desc">Real-time win odds from MoneyPuck, updated throughout every game. Watch the chart move as goals go in.</div>
                 </div>
+                <img class="feature-card-img" src="screenshots/live-game.PNG" alt="Live Win Probability">
             </div>
             <div class="feature-card">
-                <img class="feature-card-img" src="screenshots/scoring-leaders.PNG" alt="Scoring Leaders">
                 <div class="feature-card-body">
                     <div class="feature-title">Scoring Leaders</div>
                     <div class="feature-desc">Top scorers across every playoff team — points, goals, assists — with player headshots and live updates.</div>
                 </div>
+                <img class="feature-card-img" src="screenshots/scoring-leaders.PNG" alt="Scoring Leaders">
             </div>
             <div class="feature-card">
-                <img class="feature-card-img" src="screenshots/game-preview.PNG" alt="Game Preview">
                 <div class="feature-card-body">
                     <div class="feature-title">Game Preview</div>
                     <div class="feature-desc">Matchup odds, betting lines, series implications, and goaltending matchups — before the puck drops.</div>
                 </div>
+                <img class="feature-card-img" src="screenshots/game-preview.PNG" alt="Game Preview">
             </div>
             <div class="feature-card">
-                <img class="feature-card-img" src="screenshots/shot-map.PNG" alt="Shot Maps">
                 <div class="feature-card-body">
                     <div class="feature-title">Shot Maps</div>
                     <div class="feature-desc">Full-rink shot visualization with xGoals weighting. See exactly where teams are generating danger from.</div>
                 </div>
+                <img class="feature-card-img" src="screenshots/shot-map.PNG" alt="Shot Maps">
             </div>
             <div class="feature-card">
-                <img class="feature-card-img" src="screenshots/series.PNG" alt="Series Tracker">
                 <div class="feature-card-body">
                     <div class="feature-title">Series Tracker</div>
                     <div class="feature-desc">Every playoff series with odds history sparklines, so you can see how the picture has shifted throughout the playoffs.</div>
                 </div>
+                <img class="feature-card-img" src="screenshots/series.PNG" alt="Series Tracker">
             </div>
             <div class="feature-card">
-                <img class="feature-card-img" src="screenshots/player-card.PNG" alt="Player Profiles">
                 <div class="feature-card-body">
                     <div class="feature-title">Player Profiles</div>
                     <div class="feature-desc">Tap any player for deep stats — situational splits, ice time, shot types, physical play, and more.</div>
                 </div>
+                <img class="feature-card-img" src="screenshots/player-card.PNG" alt="Player Profiles">
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-body">
+                    <div class="feature-title">Playoff Bracket</div>
+                    <div class="feature-desc">Full interactive bracket updated in real time — series scores, team odds, and who's still standing.</div>
+                </div>
+                <img class="feature-card-img" src="screenshots/bracket.PNG" alt="Playoff Bracket">
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-body">
+                    <div class="feature-title">Installs Like an App</div>
+                    <div class="feature-desc">Add to your home screen on iOS or Android — no App Store needed. Works offline, feels completely native.</div>
+                </div>
+                <img class="feature-card-img" src="screenshots/main.PNG" alt="Install as app">
             </div>
         </div>
     </section>
