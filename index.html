@@ -136,9 +136,14 @@
             align-items: center;
             justify-content: center;
             padding: 110px 40px 70px;
-            gap: 70px;
             position: relative;
             z-index: 1;
+        }
+        .hero-group {
+            display: flex;
+            align-items: center;
+            gap: 70px;
+            zoom: clamp(1, calc(-0.786 + 0.0893vw), 1.6);
         }
         .hero-left { flex: 0 1 540px; }
         .hero-badge {
@@ -675,7 +680,8 @@
         /* ── RESPONSIVE ── */
         @media (max-width: 860px) {
             nav { padding: 14px 20px; }
-            .hero { flex-direction: column; padding: 90px 20px 50px; gap: 44px; text-align: center; }
+            .hero { padding: 90px 20px 50px; }
+            .hero-group { flex-direction: column; gap: 44px; text-align: center; zoom: 1; }
             .hero-sub { margin: 0 auto 36px; }
             .hero-ctas { justify-content: center; }
             .hero-right { order: -1; }
@@ -709,6 +715,7 @@
 
     <!-- HERO -->
     <div class="hero">
+        <div class="hero-group">
         <div class="hero-left">
             <div class="hero-badge">🏒 2026 Stanley Cup Playoffs</div>
             <h1 class="hero-title">THE <span class="accent">SHARPEST</span><br>PLAYOFF<br>TRACKER<br>OUT THERE.</h1>
@@ -880,6 +887,7 @@
                 </div><!-- /phone-screen -->
             </div><!-- /phone -->
         </div><!-- /hero-right -->
+        </div><!-- /hero-group -->
     </div><!-- /hero -->
 
     <!-- FEATURES -->
