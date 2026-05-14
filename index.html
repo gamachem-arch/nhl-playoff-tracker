@@ -187,7 +187,7 @@
         }
         .phone {
             width: 282px;
-            height: 570px;
+            height: 680px;
             background: #09090f;
             border-radius: 42px;
             border: 2px solid rgba(255,255,255,0.11);
@@ -361,6 +361,125 @@
             letter-spacing: 0.8px;
             text-transform: uppercase;
             margin-bottom: 3px;
+        }
+
+        /* Scoring leaders in phone */
+        .ph-leaders {
+            padding: 6px 11px 4px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .ph-leaders-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 5px;
+        }
+        .ph-leader {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        .ph-avatar {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .ph-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .ph-lname {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 10px; font-weight: 700;
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+        }
+        .ph-lpts {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px; font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Bracket in phone */
+        .ph-bracket {
+            padding: 5px 11px 8px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .ph-bracket-body {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-top: 5px;
+        }
+        .ph-bcol {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+        .ph-bteam {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 5px;
+            padding: 3px 5px;
+        }
+        .ph-bteam.winner {
+            background: rgba(59,130,246,0.12);
+            border: 1px solid rgba(59,130,246,0.2);
+        }
+        .ph-bteam.loser { opacity: 0.35; }
+        .ph-babbrev {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 10px; font-weight: 700;
+            color: rgba(255,255,255,0.85);
+        }
+        .ph-blines {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            align-self: stretch;
+        }
+        .ph-bline-top {
+            flex: 1;
+            border-right: 1px solid rgba(255,255,255,0.15);
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            width: 50%;
+        }
+        .ph-bline-bot {
+            flex: 1;
+            border-right: 1px solid rgba(255,255,255,0.15);
+            border-top: 1px solid rgba(255,255,255,0.15);
+            width: 50%;
+        }
+        .ph-bwinner-col {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+        .ph-bwinner {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(59,130,246,0.15);
+            border: 1px solid rgba(59,130,246,0.25);
+            border-radius: 5px;
+            padding: 3px 5px;
+        }
+        .ph-bwinner-label {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 9px; font-weight: 700;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.5px;
         }
 
         /* ── LAYOUT WRAPPER ── */
@@ -561,7 +680,7 @@
             .hero-sub { margin: 0 auto 36px; }
             .hero-ctas { justify-content: center; }
             .hero-right { order: -1; }
-            .phone { width: 250px; height: 500px; }
+            .phone { width: 250px; height: 600px; }
             .section { padding: 60px 20px; }
             .features-grid { grid-template-columns: 1fr 1fr; }
             .pool-wrap { padding: 60px 20px; }
@@ -682,12 +801,87 @@
                             <path d="M0,11 C25,10 45,13 70,8 C95,3 110,16 130,18 C150,20 170,10 190,6 C205,3 215,4 220,3" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
                             <path d="M0,11 C25,10 45,13 70,8 C95,3 110,16 130,18 C150,20 170,10 190,6 C205,3 215,4 220,3 L220,26 L0,26Z" fill="url(#wg)"/>
                         </svg>
-                    </div>
+                    </div><!-- /ph-game -->
 
+                <!-- Scoring leaders -->
+                <div class="ph-leaders">
+                    <div class="ph-slabel">Top Scorers</div>
+                    <div class="ph-leaders-row">
+                        <div class="ph-leader">
+                            <div class="ph-avatar">
+                                <img src="https://assets.nhle.com/mugs/nhl/20252026/EDM/8478402.png" alt="Draisaitl" onerror="this.src='https://assets.nhle.com/logos/nhl/svg/EDM_light.svg';this.style='width:18px;height:18px;opacity:0.8'">
+                            </div>
+                            <div class="ph-lname">DRAISAITL</div>
+                            <div class="ph-lpts">14 PTS</div>
+                        </div>
+                        <div class="ph-leader">
+                            <div class="ph-avatar">
+                                <img src="https://assets.nhle.com/mugs/nhl/20252026/BOS/8473419.png" alt="Marchand" onerror="this.src='https://assets.nhle.com/logos/nhl/svg/BOS_light.svg';this.style='width:18px;height:18px;opacity:0.8'">
+                            </div>
+                            <div class="ph-lname">MARCHAND</div>
+                            <div class="ph-lpts">12 PTS</div>
+                        </div>
+                        <div class="ph-leader">
+                            <div class="ph-avatar">
+                                <img src="https://assets.nhle.com/mugs/nhl/20252026/COL/8480069.png" alt="Makar" onerror="this.src='https://assets.nhle.com/logos/nhl/svg/COL_light.svg';this.style='width:18px;height:18px;opacity:0.8'">
+                            </div>
+                            <div class="ph-lname">MAKAR</div>
+                            <div class="ph-lpts">11 PTS</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
+
+                <!-- Mini bracket -->
+                <div class="ph-bracket">
+                    <div class="ph-slabel">Bracket</div>
+                    <div class="ph-bracket-body">
+                        <!-- R1 pairs -->
+                        <div class="ph-bcol">
+                            <div class="ph-bteam winner">
+                                <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/EDM_light.svg" onerror="this.style.display='none'">
+                                <div class="ph-babbrev">EDM</div>
+                            </div>
+                            <div class="ph-bteam loser">
+                                <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/VAN_light.svg" onerror="this.style.display='none'">
+                                <div class="ph-babbrev">VAN</div>
+                            </div>
+                            <div class="ph-bteam winner">
+                                <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/FLA_light.svg" onerror="this.style.display='none'">
+                                <div class="ph-babbrev">FLA</div>
+                            </div>
+                            <div class="ph-bteam loser">
+                                <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/BOS_light.svg" onerror="this.style.display='none'">
+                                <div class="ph-babbrev">BOS</div>
+                            </div>
+                        </div>
+                        <!-- Connector lines -->
+                        <div style="display:flex;flex-direction:column;width:12px;align-self:stretch;">
+                            <div style="flex:1;border-right:1px solid rgba(255,255,255,0.15);border-bottom:1px solid rgba(255,255,255,0.15);"></div>
+                            <div style="flex:1;border-right:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.15);"></div>
+                            <div style="flex:1;border-right:1px solid rgba(255,255,255,0.15);border-bottom:1px solid rgba(255,255,255,0.15);"></div>
+                            <div style="flex:1;border-right:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.15);"></div>
+                        </div>
+                        <!-- R2 matchup -->
+                        <div style="display:flex;flex-direction:column;justify-content:space-around;flex:1;gap:4px;">
+                            <div class="ph-bwinner">
+                                <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/EDM_light.svg" onerror="this.style.display='none'">
+                                <div class="ph-babbrev">EDM</div>
+                            </div>
+                            <div style="text-align:center;">
+                                <div style="font-size:8px;color:rgba(255,255,255,0.25);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.5px;">VS</div>
+                            </div>
+                            <div class="ph-bwinner">
+                                <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/FLA_light.svg" onerror="this.style.display='none'">
+                                <div class="ph-babbrev">FLA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div><!-- /phone-screen -->
+            </div><!-- /phone -->
+        </div><!-- /hero-right -->
+    </div><!-- /hero -->
 
     <!-- FEATURES -->
     <section class="section">
