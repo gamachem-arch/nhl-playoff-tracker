@@ -551,19 +551,27 @@
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 18px;
-            padding: 28px 26px;
+            overflow: hidden;
             transition: border-color 0.2s, transform 0.2s;
         }
         .feature-card:hover {
             border-color: rgba(59,130,246,0.28);
             transform: translateY(-2px);
         }
-        .feature-icon { font-size: 28px; margin-bottom: 14px; }
+        .feature-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+            border-bottom: 1px solid var(--border);
+        }
+        .feature-card-body { padding: 20px 22px 22px; }
         .feature-title {
             font-family: 'Barlow Condensed', sans-serif;
             font-size: 22px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .feature-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
 
@@ -617,7 +625,16 @@
         }
         .step-text { font-size: 14px; color: var(--muted); line-height: 1.55; }
         .step-text strong { color: var(--text); }
-        .pool-right { flex: 0 0 230px; }
+        .pool-right { flex: 0 0 320px; display: flex; gap: 14px; justify-content: center; align-items: flex-start; }
+        .pool-phone {
+            flex: 0 0 148px;
+            border-radius: 26px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .pool-phone img { width: 100%; display: block; }
+        .pool-phone-offset { margin-top: 36px; }
         .mini-pool-card {
             background: #0a0a18;
             border: 1px solid rgba(255,255,255,0.07);
@@ -750,158 +767,7 @@
         </div>
         <div class="hero-right">
             <div class="phone">
-                <div class="phone-screen">
-
-                    <!-- Header -->
-                    <div class="ph-header">
-                        <div class="ph-title">🏒 PLAYOFFS</div>
-                        <div class="ph-live-badge"><div class="ph-dot"></div> LIVE</div>
-                    </div>
-
-                    <!-- Series tracker -->
-                    <div class="ph-series">
-                        <div class="ph-slabel">Series Odds</div>
-
-                        <div class="ph-srow">
-                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/EDM_light.svg" alt="EDM" onerror="this.style.display='none'">
-                            <div class="ph-smid">
-                                <div class="ph-sabbrev">EDM</div>
-                                <div class="ph-sscore">3–1</div>
-                                <div class="ph-sabbrev" style="opacity:0.4">VAN</div>
-                            </div>
-                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/VAN_light.svg" alt="VAN" style="opacity:0.35" onerror="this.style.display='none'">
-                            <div class="ph-scup">71.4%</div>
-                        </div>
-
-                        <div class="ph-srow">
-                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/FLA_light.svg" alt="FLA" onerror="this.style.display='none'">
-                            <div class="ph-smid">
-                                <div class="ph-sabbrev">FLA</div>
-                                <div class="ph-sscore">2–2</div>
-                                <div class="ph-sabbrev">BOS</div>
-                            </div>
-                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/BOS_light.svg" alt="BOS" onerror="this.style.display='none'">
-                            <div class="ph-scup" style="color:rgba(255,255,255,0.5)">51.2%</div>
-                        </div>
-
-                        <div class="ph-srow">
-                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/COL_light.svg" alt="COL" onerror="this.style.display='none'">
-                            <div class="ph-smid">
-                                <div class="ph-sabbrev">COL</div>
-                                <div class="ph-sscore">3–0</div>
-                                <div class="ph-sabbrev" style="opacity:0.4">DAL</div>
-                            </div>
-                            <img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/DAL_light.svg" alt="DAL" style="opacity:0.35" onerror="this.style.display='none'">
-                            <div class="ph-scup">82.1%</div>
-                        </div>
-                    </div>
-
-                    <!-- Tonight divider -->
-                    <div class="ph-tonight">Tonight</div>
-
-                    <!-- Live game card -->
-                    <div class="ph-game">
-                        <div class="ph-game-top">
-                            <div class="ph-live-badge"><div class="ph-dot"></div> 3RD · 12:34</div>
-                            <div style="font-size:8px;color:rgba(255,255,255,0.28);letter-spacing:0.3px;">TAP FOR ANALYSIS</div>
-                        </div>
-                        <div class="ph-teams">
-                            <div class="ph-team">
-                                <img class="ph-logo-lg" src="https://assets.nhle.com/logos/nhl/svg/EDM_light.svg" alt="EDM" onerror="this.style.display='none'">
-                                <div class="ph-abbrev">EDM</div>
-                            </div>
-                            <div style="text-align:center;">
-                                <div class="ph-score">2 · 3</div>
-                            </div>
-                            <div class="ph-team">
-                                <img class="ph-logo-lg" src="https://assets.nhle.com/logos/nhl/svg/VAN_light.svg" alt="VAN" onerror="this.style.display='none'">
-                                <div class="ph-abbrev">VAN</div>
-                            </div>
-                        </div>
-                        <div class="ph-chart-label">WIN PROBABILITY</div>
-                        <svg width="100%" height="26" viewBox="0 0 220 26" preserveAspectRatio="none">
-                            <defs>
-                                <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.28"/>
-                                    <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
-                                </linearGradient>
-                            </defs>
-                            <line x1="0" y1="13" x2="220" y2="13" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
-                            <path d="M0,11 C25,10 45,13 70,8 C95,3 110,16 130,18 C150,20 170,10 190,6 C205,3 215,4 220,3" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
-                            <path d="M0,11 C25,10 45,13 70,8 C95,3 110,16 130,18 C150,20 170,10 190,6 C205,3 215,4 220,3 L220,26 L0,26Z" fill="url(#wg)"/>
-                        </svg>
-                    </div><!-- /ph-game -->
-
-                <!-- Scoring leaders -->
-                <div class="ph-leaders">
-                    <div class="ph-slabel">Top Scorers</div>
-                    <div class="ph-leaders-row">
-                        <div class="ph-leader">
-                            <div class="ph-avatar">
-                                <img src="https://assets.nhle.com/mugs/nhl/20252026/EDM/8478402.png" alt="Draisaitl" onerror="this.src='https://assets.nhle.com/logos/nhl/svg/EDM_light.svg';this.style='width:18px;height:18px;opacity:0.8'">
-                            </div>
-                            <div class="ph-lname">MCDAVID</div>
-                            <div class="ph-lpts">14 PTS</div>
-                        </div>
-                        <div class="ph-leader">
-                            <div class="ph-avatar">
-                                <img src="https://assets.nhle.com/mugs/nhl/20252026/BOS/8473419.png" alt="Marchand" onerror="this.src='https://assets.nhle.com/logos/nhl/svg/BOS_light.svg';this.style='width:18px;height:18px;opacity:0.8'">
-                            </div>
-                            <div class="ph-lname">MARCHAND</div>
-                            <div class="ph-lpts">12 PTS</div>
-                        </div>
-                        <div class="ph-leader">
-                            <div class="ph-avatar">
-                                <img src="https://assets.nhle.com/mugs/nhl/20252026/COL/8480069.png" alt="Makar" onerror="this.src='https://assets.nhle.com/logos/nhl/svg/COL_light.svg';this.style='width:18px;height:18px;opacity:0.8'">
-                            </div>
-                            <div class="ph-lname">MAKAR</div>
-                            <div class="ph-lpts">11 PTS</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mini bracket -->
-                <div class="ph-bracket">
-                    <div class="ph-slabel">Bracket</div>
-                    <div style="margin-top:5px;display:flex;flex-direction:column;gap:4px;">
-                        <!-- Matchup 1: EDM vs VAN -->
-                        <div style="display:flex;align-items:center;">
-                            <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
-                                <div class="ph-bteam winner"><img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/EDM_light.svg" onerror="this.style.display='none'"><div class="ph-babbrev">EDM</div></div>
-                                <div class="ph-bteam loser"><img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/VAN_light.svg" onerror="this.style.display='none'"><div class="ph-babbrev">VAN</div></div>
-                            </div>
-                            <div style="width:10px;align-self:stretch;display:flex;flex-direction:column;">
-                                <div style="flex:1;border-right:1px solid rgba(255,255,255,0.15);border-bottom:1px solid rgba(255,255,255,0.15);"></div>
-                                <div style="flex:1;border-right:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.15);"></div>
-                            </div>
-                            <div style="flex:1;display:flex;align-items:center;">
-                                <div class="ph-bwinner" style="flex:1;"><img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/EDM_light.svg" onerror="this.style.display='none'"><div class="ph-babbrev">EDM</div></div>
-                            </div>
-                        </div>
-                        <!-- VS separator -->
-                        <div style="display:flex;align-items:center;">
-                            <div style="flex:1;"></div>
-                            <div style="width:10px;"></div>
-                            <div style="flex:1;text-align:center;font-size:8px;color:rgba(255,255,255,0.25);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.5px;">VS</div>
-                        </div>
-                        <!-- Matchup 2: FLA vs BOS -->
-                        <div style="display:flex;align-items:center;">
-                            <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
-                                <div class="ph-bteam winner"><img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/FLA_light.svg" onerror="this.style.display='none'"><div class="ph-babbrev">FLA</div></div>
-                                <div class="ph-bteam loser"><img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/BOS_light.svg" onerror="this.style.display='none'"><div class="ph-babbrev">BOS</div></div>
-                            </div>
-                            <div style="width:10px;align-self:stretch;display:flex;flex-direction:column;">
-                                <div style="flex:1;border-right:1px solid rgba(255,255,255,0.15);border-bottom:1px solid rgba(255,255,255,0.15);"></div>
-                                <div style="flex:1;border-right:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.15);"></div>
-                            </div>
-                            <div style="flex:1;display:flex;align-items:center;">
-                                <div class="ph-bwinner" style="flex:1;"><img class="ph-logo" src="https://assets.nhle.com/logos/nhl/svg/FLA_light.svg" onerror="this.style.display='none'"><div class="ph-babbrev">FLA</div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                </div><!-- /phone-screen -->
+                <img src="screenshots/main.PNG" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
             </div><!-- /phone -->
         </div><!-- /hero-right -->
         </div><!-- /hero-group -->
@@ -915,34 +781,46 @@
         <p class="section-sub">Built by hockey fans, powered by real data. No bloat, no accounts, no clutter — just the playoffs.</p>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <div class="feature-title">Live Win Probability</div>
-                <div class="feature-desc">Real-time win odds from MoneyPuck, updated throughout every game. Watch the chart move as goals go in.</div>
+                <img class="feature-card-img" src="screenshots/live-game.PNG" alt="Live Win Probability">
+                <div class="feature-card-body">
+                    <div class="feature-title">Live Win Probability</div>
+                    <div class="feature-desc">Real-time win odds from MoneyPuck, updated throughout every game. Watch the chart move as goals go in.</div>
+                </div>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🏒</div>
-                <div class="feature-title">Scoring Leaders</div>
-                <div class="feature-desc">Top scorers across every playoff team — points, goals, assists — with player headshots and live updates.</div>
+                <img class="feature-card-img" src="screenshots/scoring-leaders.PNG" alt="Scoring Leaders">
+                <div class="feature-card-body">
+                    <div class="feature-title">Scoring Leaders</div>
+                    <div class="feature-desc">Top scorers across every playoff team — points, goals, assists — with player headshots and live updates.</div>
+                </div>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <div class="feature-title">Live Game Analysis</div>
-                <div class="feature-desc">Tap any live game for a full overlay: win probability chart, shot map, game control bars, and scoring timeline with Δwin%.</div>
+                <img class="feature-card-img" src="screenshots/game-preview.PNG" alt="Game Preview">
+                <div class="feature-card-body">
+                    <div class="feature-title">Game Preview</div>
+                    <div class="feature-desc">Matchup odds, betting lines, series implications, and goaltending matchups — before the puck drops.</div>
+                </div>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🗺️</div>
-                <div class="feature-title">Shot Maps</div>
-                <div class="feature-desc">Full-rink shot visualization with xGoals weighting. See exactly where teams are generating danger from.</div>
+                <img class="feature-card-img" src="screenshots/shot-map.PNG" alt="Shot Maps">
+                <div class="feature-card-body">
+                    <div class="feature-title">Shot Maps</div>
+                    <div class="feature-desc">Full-rink shot visualization with xGoals weighting. See exactly where teams are generating danger from.</div>
+                </div>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">📈</div>
-                <div class="feature-title">Series Tracker</div>
-                <div class="feature-desc">Every playoff series with odds history sparklines, so you can see how the picture has shifted throughout the playoffs.</div>
+                <img class="feature-card-img" src="screenshots/series.PNG" alt="Series Tracker">
+                <div class="feature-card-body">
+                    <div class="feature-title">Series Tracker</div>
+                    <div class="feature-desc">Every playoff series with odds history sparklines, so you can see how the picture has shifted throughout the playoffs.</div>
+                </div>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">📲</div>
-                <div class="feature-title">Installs Like an App</div>
-                <div class="feature-desc">Add to your home screen on iOS or Android — no App Store needed. Works offline, feels completely native.</div>
+                <img class="feature-card-img" src="screenshots/player-card.PNG" alt="Player Profiles">
+                <div class="feature-card-body">
+                    <div class="feature-title">Player Profiles</div>
+                    <div class="feature-desc">Tap any player for deep stats — situational splits, ice time, shot types, physical play, and more.</div>
+                </div>
             </div>
         </div>
     </section>
@@ -972,32 +850,11 @@
                 </div>
             </div>
             <div class="pool-right">
-                <div class="mini-pool-card">
-                    <div class="mini-pool-header">🏆 POOL STANDINGS</div>
-                    <div class="mini-row">
-                        <div class="mini-rank">1</div>
-                        <div class="mini-pip" style="background:#3b82f6"></div>
-                        <div class="mini-name">Player 1</div>
-                        <div class="mini-pct">34.2%</div>
-                    </div>
-                    <div class="mini-row" style="opacity:0.55">
-                        <div class="mini-rank">2</div>
-                        <div class="mini-pip" style="background:#f59e0b"></div>
-                        <div class="mini-name">Player 2</div>
-                        <div class="mini-pct">28.7%</div>
-                    </div>
-                    <div class="mini-row" style="opacity:0.55">
-                        <div class="mini-rank">3</div>
-                        <div class="mini-pip" style="background:#10b981"></div>
-                        <div class="mini-name">Player 3</div>
-                        <div class="mini-pct">21.1%</div>
-                    </div>
-                    <div class="mini-row" style="opacity:0.55">
-                        <div class="mini-rank">4</div>
-                        <div class="mini-pip" style="background:#8b5cf6"></div>
-                        <div class="mini-name">Player 4</div>
-                        <div class="mini-pct">16.0%</div>
-                    </div>
+                <div class="pool-phone">
+                    <img src="screenshots/pool-standings.PNG" alt="Pool standings">
+                </div>
+                <div class="pool-phone pool-phone-offset">
+                    <img src="screenshots/pool-maker.PNG" alt="Pool maker">
                 </div>
             </div>
         </div>
