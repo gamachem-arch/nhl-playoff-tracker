@@ -716,6 +716,34 @@
             font-size: 16px; font-weight: 700; color: var(--accent);
         }
 
+        /* ── FROZEN FOUR (college) variant ── */
+        :root { --ff-accent: #22d3ee; --ff-glow: rgba(34,211,238,0.3); }
+        .ff-card { border-color: rgba(34,211,238,0.18); }
+        .ff-badge {
+            background: rgba(34,211,238,0.12);
+            border-color: rgba(34,211,238,0.32);
+            color: var(--ff-accent);
+        }
+        .ff-card .step-num {
+            background: rgba(34,211,238,0.12);
+            border-color: rgba(34,211,238,0.30);
+            color: var(--ff-accent);
+        }
+        .ff-card .section-title .accent { color: var(--ff-accent); }
+        .btn-ff {
+            background: var(--ff-accent);
+            color: #06222a;
+        }
+        .btn-ff:hover {
+            background: #0fc6e3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 24px var(--ff-glow);
+        }
+        .ff-logo-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .ff-logo-row img { height: 46px; width: auto; object-fit: contain; }
+        .ff-feat .label { color: var(--ff-accent); }
+        .ff-feat .feature-card:hover { border-color: rgba(34,211,238,0.30); }
+
         /* ── CTA BANNER ── */
         .cta-section {
             text-align: center;
@@ -948,12 +976,88 @@
 
     <div class="divider"></div>
 
+    <!-- FROZEN FOUR SECTION -->
+    <div class="pool-wrap">
+        <div class="pool-card ff-card">
+            <div class="pool-right" style="order:-1;">
+                <div class="pool-phone">
+                    <img src="screenshots/ff_bracket.PNG" alt="Frozen Four bracket">
+                </div>
+                <div class="pool-phone pool-phone-offset">
+                    <img src="screenshots/ff_leaderboard.PNG" alt="Frozen Four leaderboard">
+                </div>
+            </div>
+            <div class="pool-left">
+                <div class="ff-logo-row">
+                    <img src="https://gamachem-arch.github.io/frozen-four-challenge/frozen-four.png" alt="Frozen Four" onerror="this.style.display='none'">
+                    <div class="pool-badge ff-badge" style="margin-bottom:0;">🏒 New · College Hockey</div>
+                </div>
+                <h2 class="section-title">The Frozen Four<br>Bracket <span class="accent">Challenge.</span></h2>
+                <p style="font-size:16px;color:var(--muted);line-height:1.7;margin-top:14px;">March Madness, but for college hockey. Fill out the whole NCAA Division I men's bracket, invite your group, and climb a live leaderboard that scores itself off real results — right through to the national championship.</p>
+                <div class="pool-steps">
+                    <div class="pool-step">
+                        <div class="step-num">1</div>
+                        <div class="step-text"><strong>Pick the whole bracket</strong> — every round from the Round of 16 to the title game</div>
+                    </div>
+                    <div class="pool-step">
+                        <div class="step-num">2</div>
+                        <div class="step-text"><strong>Start a group</strong> — share a link or join code so friends pick on their own phones</div>
+                    </div>
+                    <div class="pool-step">
+                        <div class="step-num">3</div>
+                        <div class="step-text"><strong>Watch it score live</strong> — standings, upset bonuses, and box scores update as games go final</div>
+                    </div>
+                </div>
+                <a href="https://gamachem-arch.github.io/frozen-four-challenge/" class="btn-primary btn-ff" style="margin-top:28px;font-size:15px;padding:13px 30px;">Open Frozen Four Challenge →</a>
+            </div>
+        </div>
+
+        <!-- FROZEN FOUR FEATURES -->
+        <div class="ff-feat" style="margin-top:64px;">
+            <div class="label">Inside the challenge</div>
+            <h3 class="section-title" style="font-size:clamp(30px,4vw,42px);margin-bottom:32px;">Way more than a bracket.</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-card-body">
+                        <div class="feature-title">NHL Draft Pedigree</div>
+                        <div class="feature-desc">See which players on every team have been drafted — NHL club, year, and pick — plus 2026 draft-eligible prospects to watch.</div>
+                    </div>
+                    <img class="feature-card-img" src="screenshots/ff_nhl_draft.PNG" alt="NHL draft pedigree">
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-body">
+                        <div class="feature-title">Player Cards</div>
+                        <div class="feature-desc">Tap any player for a real headshot, bio, draft details, and live tournament stats — goals, assists, shots, and more.</div>
+                    </div>
+                    <img class="feature-card-img" src="screenshots/ff_playercard.PNG" alt="Player cards">
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-body">
+                        <div class="feature-title">Live Box Scores</div>
+                        <div class="feature-desc">Every tournament game with live scores, shot / power-play / faceoff bars, and goal scorers — updating automatically.</div>
+                    </div>
+                    <img class="feature-card-img" src="screenshots/ff_live.PNG" alt="Live box scores">
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-body">
+                        <div class="feature-title">Conference Tournaments</div>
+                        <div class="feature-desc">Follow every conference championship and see who locked up an NCAA auto-bid — with full results for each league.</div>
+                    </div>
+                    <img class="feature-card-img" src="screenshots/ff_conferences.PNG" alt="Conference tournaments">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
     <!-- CTA -->
     <div class="cta-section">
         <h2 class="section-title">Ready to follow the<br><span style="color:var(--accent)">2026 playoffs?</span></h2>
         <p class="cta-sub">Free. No account. Works on any device.</p>
         <div class="cta-buttons">
             <a href="https://gamachem-arch.github.io/playoff-pool-maker/" class="btn-primary" style="font-size:16px;padding:14px 36px;">Open NHL Playoff Tracker →</a>
+            <a href="https://gamachem-arch.github.io/frozen-four-challenge/" class="btn-primary btn-ff" style="font-size:16px;padding:14px 36px;">Frozen Four Challenge →</a>
             <a href="https://buymeacoffee.com/gamachem" target="_blank" class="btn-bmc" style="font-size:15px;padding:13px 28px;">☕ Buy Me a Coffee</a>
         </div>
     </div>
