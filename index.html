@@ -744,6 +744,36 @@
         .ff-feat .label { color: var(--ff-accent); }
         .ff-feat .feature-card:hover { border-color: rgba(34,211,238,0.30); }
 
+        /* ── BRACKET POOLS (NRC + Bracket Challenge) variant ── */
+        :root { --bp-accent: #fbbf24; --bp-glow: rgba(251,191,36,0.3); }
+        .bp-card { border-color: rgba(251,191,36,0.18); }
+        .bp-badge {
+            background: rgba(251,191,36,0.12);
+            border-color: rgba(251,191,36,0.32);
+            color: var(--bp-accent);
+        }
+        .bp-card .section-title .accent { color: var(--bp-accent); }
+        .btn-bp { background: var(--bp-accent); color: #2a1d02; }
+        .btn-bp:hover {
+            background: #f5b400;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 24px var(--bp-glow);
+        }
+        .bp-formats { margin-top: 26px; display: flex; flex-direction: column; gap: 12px; }
+        .bp-format { display: flex; align-items: flex-start; gap: 13px; }
+        .bp-format-icon { font-size: 22px; line-height: 1.3; flex-shrink: 0; width: 26px; text-align: center; }
+        .bp-format-text { font-size: 14px; color: var(--muted); line-height: 1.5; }
+        .bp-format-text strong { color: var(--text); font-size: 15px; }
+        .bp-tag {
+            display: inline-block; font-size: 10px; font-weight: 700;
+            color: var(--bp-accent); background: rgba(251,191,36,0.12);
+            border: 1px solid rgba(251,191,36,0.3); border-radius: 5px;
+            padding: 1px 6px; margin-left: 6px; vertical-align: middle;
+            letter-spacing: 0.3px;
+        }
+        .bp-feat .label { color: var(--bp-accent); }
+        .bp-feat .feature-card:hover { border-color: rgba(251,191,36,0.30); }
+
         /* ── CTA BANNER ── */
         .cta-section {
             text-align: center;
@@ -969,6 +999,75 @@
                 </div>
                 <div class="pool-phone pool-phone-offset">
                     <img src="screenshots/pool_poolMakerView.PNG" alt="Pool maker">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- BRACKET POOLS SECTION (NRC + Bracket Challenge) -->
+    <div class="pool-wrap">
+        <div class="pool-card bp-card">
+            <div class="pool-left">
+                <div class="pool-badge bp-badge">🏆 Three pool formats</div>
+                <h2 class="section-title">Not just<br>pick-a-team <span class="accent">anymore.</span></h2>
+                <p style="font-size:16px;color:var(--muted);line-height:1.7;margin-top:14px;">Run your playoff pool the way your group likes it. Spin up any of three formats in seconds — each with its own live, self-scoring leaderboard.</p>
+                <div class="bp-formats">
+                    <div class="bp-format">
+                        <div class="bp-format-icon">🏒</div>
+                        <div class="bp-format-text"><strong>Pick Teams</strong><br>The classic — each player rides their assigned teams' live Cup odds.</div>
+                    </div>
+                    <div class="bp-format">
+                        <div class="bp-format-icon">🏆</div>
+                        <div class="bp-format-text"><strong>NRC Style</strong><span class="bp-tag">Marvin Zaluski Memorial</span><br>A game-by-game, series-by-series bracket. Pick every game; earn points for winners, exact game counts, and perfect series.</div>
+                    </div>
+                    <div class="bp-format">
+                        <div class="bp-format-icon">📋</div>
+                        <div class="bp-format-text"><strong>Bracket Challenge</strong><br>Stripped down — just pick the winner of each series through to the Cup. Round-weighted scoring.</div>
+                    </div>
+                </div>
+                <a href="https://gamachem-arch.github.io/playoff-pool-maker/" class="btn-primary btn-bp" style="margin-top:28px;font-size:15px;padding:13px 30px;">Create a Pool →</a>
+            </div>
+            <div class="pool-right">
+                <div class="pool-phone">
+                    <img src="screenshots/pool_chooser.PNG" alt="Choose your pool format">
+                </div>
+            </div>
+        </div>
+
+        <!-- NRC DEEP-DIVE FEATURES -->
+        <div class="bp-feat" style="margin-top:64px;">
+            <div class="label">NRC Style · the deep one</div>
+            <h3 class="section-title" style="font-size:clamp(30px,4vw,42px);margin-bottom:32px;">A bracket for the obsessives.</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-card-body">
+                        <div class="feature-title">Game-by-Game Picks</div>
+                        <div class="feature-desc">Call the winner of every single game in every series — first to four takes it. Your picks lock at Round 1, Game 1.</div>
+                    </div>
+                    <img class="feature-card-img" src="screenshots/nrc_picker.PNG" alt="Game-by-game picks">
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-body">
+                        <div class="feature-title">Full Bracket View</div>
+                        <div class="feature-desc">See your whole bracket at a glance, round by round, with every game result and per-game points marked as they happen.</div>
+                    </div>
+                    <img class="feature-card-img" src="screenshots/nrc_bracket.PNG" alt="Full bracket view">
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-body">
+                        <div class="feature-title">Live Leaderboard</div>
+                        <div class="feature-desc">Standings update automatically with a per-round breakdown — this pool or a global board across every group.</div>
+                    </div>
+                    <img class="feature-card-img" src="screenshots/nrc_leaderboard.PNG" alt="NRC leaderboard">
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-body">
+                        <div class="feature-title">Rewards the Sharps</div>
+                        <div class="feature-desc">Game +1 · series winner +3 · exact number of games +2 · perfect series +5. Get the whole series right and you cash in.</div>
+                    </div>
+                    <img class="feature-card-img" src="screenshots/nrc_scoring.PNG" alt="NRC scoring">
                 </div>
             </div>
         </div>
