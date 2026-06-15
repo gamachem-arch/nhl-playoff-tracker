@@ -586,10 +586,27 @@
 
         /* ── FEATURES ── */
         .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
             gap: 18px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 4px;
         }
+        .features-grid::-webkit-scrollbar { display: none; }
+        /* slider arrows */
+        .slider-nav { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+        .slider-btn {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: var(--surface); border: 1px solid var(--border);
+            color: var(--text); font-size: 22px; line-height: 1; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: border-color 0.2s, transform 0.2s, opacity 0.2s;
+        }
+        .slider-btn:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-1px); }
+        .slider-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
         .feature-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -599,6 +616,8 @@
             flex-direction: column;
             align-items: stretch;
             transition: border-color 0.2s, transform 0.2s;
+            flex: 0 0 min(85%, 340px);
+            scroll-snap-align: start;
         }
         .feature-card:hover {
             border-color: rgba(59,130,246,0.28);
@@ -1203,6 +1222,34 @@
     }
     applyZoom();
     window.addEventListener('resize', applyZoom);
+
+    // Feature sliders: inject ‹ › arrows + enable/disable at the ends
+    document.querySelectorAll('.features-grid').forEach(function(grid) {
+        var nav = document.createElement('div');
+        nav.className = 'slider-nav';
+        var prev = document.createElement('button');
+        prev.className = 'slider-btn'; prev.type = 'button';
+        prev.setAttribute('aria-label', 'Previous'); prev.innerHTML = '&#8249;';
+        var next = document.createElement('button');
+        next.className = 'slider-btn'; next.type = 'button';
+        next.setAttribute('aria-label', 'Next'); next.innerHTML = '&#8250;';
+        nav.appendChild(prev); nav.appendChild(next);
+        grid.parentNode.insertBefore(nav, grid.nextSibling);
+
+        function cardStep() {
+            var c = grid.querySelector('.feature-card');
+            return c ? c.getBoundingClientRect().width + 18 : 320;
+        }
+        function update() {
+            prev.disabled = grid.scrollLeft <= 2;
+            next.disabled = grid.scrollLeft >= (grid.scrollWidth - grid.clientWidth - 2);
+        }
+        prev.addEventListener('click', function() { grid.scrollBy({ left: -cardStep(), behavior: 'smooth' }); });
+        next.addEventListener('click', function() { grid.scrollBy({ left: cardStep(), behavior: 'smooth' }); });
+        grid.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+    });
 })();
 </script>
 </body>
